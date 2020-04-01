@@ -1,7 +1,72 @@
-<!DOCTYPE html><html><head></head><body><img src="https://raikou4.donmai.us/preview/33/27/332777baa6312259a0d924a52adce1d0.jpg">
-<img src="https://safebooru.donmai.us/data/sample/__original_drawn_by_pas_paxiti__sample-332777baa6312259a0d924a52adce1d0.jpg">
-<img src="https://shima.donmai.us/data/sample/__original_drawn_by_pas_paxiti__sample-332777baa6312259a0d924a52adce1d0.jpg">
-<img src="https://danbooru.donmai.us/data/sample/__original_drawn_by_pas_paxiti__sample-332777baa6312259a0d924a52adce1d0.jpg">
-<img src="https://safebooru.donmai.us/data/__original_drawn_by_pas_paxiti__332777baa6312259a0d924a52adce1d0.jpg">
-<img src="https://shima.donmai.us/data/__original_drawn_by_pas_paxiti__332777baa6312259a0d924a52adce1d0.jpg">
-<img src="https://danbooru.donmai.us/data/__original_drawn_by_pas_paxiti__332777baa6312259a0d924a52adce1d0.jpg"></body></html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Basic Three.js App</title>
+    <style>
+      html, body { margin: 0; padding: 0; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+    <script>
+      // Javascript will go here.
+let scene = new THREE.Scene();
+let aspect = window.innerWidth / window.innerHeight;
+let camera = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 );
+let renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild(renderer.domElement);
+let geom = new THREE.BoxGeometry( 1, 1, 1);
+let mat = new THREE.MeshBasicMaterial({color: 0x0000ff});
+camera.position.z = 6;
+let lista = {
+"c1" : {x:0, y:-0.5, z:4, speed: 1, inc: 1, obj: new THREE.Mesh(geom, mat) },
+"c2" : {x:0, y:0.5, z:3, speed: 2, inc: -1, obj: new THREE.Mesh(geom, mat) },
+"c3" : {x:-0.5, y:0, z:2, speed: 3, inc: 1, obj: new THREE.Mesh(geom, mat) },
+"c4" : {x:0.5, y:0, z:1, speed: 4, inc: -1, obj: new THREE.Mesh(geom, mat) }
+};
+// Implementacao
+function addSceneObjects(scenetarget, objlist) {
+    Object.values(objlist).map((objmap) => {
+        scenetarget.add(objmap.obj);
+        objmap.obj.position.x = objmap.x;
+        objmap.obj.position.y = objmap.y;
+        objmap.obj.position.z = objmap.z;
+    })
+}
+
+function moveCuboX(objlist, xmin, xmax) {
+    Object.values(objlist).map((objmap) => {
+        if (xmin < objmap.obj.position.x + objmap.inc * 0.01 * objmap.speed &&
+            objmap.obj.position.x + objmap.inc * 0.01 * objmap.speed < xmax) {
+            objmap.obj.position.x += objmap.inc * 0.01 * objmap.speed;
+        } else {
+            console.log("switch");
+            objmap.inc *= -1;
+        }
+    })
+}
+
+function rotateCubes(objlist) {
+    Object.values(objlist).map((objmap) => {
+        objmap.obj.rotation.x += 0.02*objmap.speed;
+        objmap.obj.rotation.y += 0.02*objmap.speed;
+    })
+}
+
+function animate() {
+    renderer.render(scene, camera);
+    moveCuboX(lista, -2, 2);
+    rotateCubes(lista);
+    requestAnimationFrame(animate)
+    console.log(lista.c1.obj.position.x);
+    console.log(lista.c1.inc);
+}
+console.log("hello");
+addSceneObjects(scene, lista);
+animate();
+
+
+    </script>
+  </body>
+</html>
