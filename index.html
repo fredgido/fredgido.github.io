@@ -55,8 +55,8 @@ function moveCuboX(objlist, xmin, xmax) {
 
 function rotateCubes(objlist) {
     Object.values(objlist).map((objmap) => {
-        objmap.obj.rotation.x += 0.02*objmap.speed;
-        objmap.obj.rotation.y += 0.02*objmap.speed;
+        objmap.obj.rotation.z += 0.02*objmap.speed;
+        //objmap.obj.rotation.y += 0.02*objmap.speed;
     })
 }
 
