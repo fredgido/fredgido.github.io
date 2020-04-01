@@ -17,7 +17,7 @@ let renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild(renderer.domElement);
 let geom = new THREE.BoxGeometry( 1, 1, 1);
-let mat = new THREE.MeshBasicMaterial({color: 0x0000ff});
+let mat = new THREE.MeshNormalMaterial();//new THREE.MeshBasicMaterial({color: 0x0000ff});
 camera.position.z = 6;
 let lista = {
 "c1" : {x:0, y:-0.5, z:4, speed: 1, inc: 1, obj: new THREE.Mesh(geom, mat) },
@@ -32,14 +32,20 @@ function addSceneObjects(scenetarget, objlist) {
         objmap.obj.position.x = objmap.x;
         objmap.obj.position.y = objmap.y;
         objmap.obj.position.z = objmap.z;
+        objmap.obj.position.x = objmap.x;
+        objmap.obj.position.y = objmap.y;
+        objmap.obj.position.z = objmap.z;
+        objmap.obj.scale.x = 0.25;
+        objmap.obj.scale.y = 0.25;
+        objmap.obj.scale.z = 0.25;
     })
 }
 
 function moveCuboX(objlist, xmin, xmax) {
     Object.values(objlist).map((objmap) => {
-        if (xmin < objmap.obj.position.x + objmap.inc * 0.01 * objmap.speed &&
-            objmap.obj.position.x + objmap.inc * 0.01 * objmap.speed < xmax) {
-            objmap.obj.position.x += objmap.inc * 0.01 * objmap.speed;
+        if (xmin < objmap.obj.position.x + objmap.inc * 0.001 * objmap.speed &&
+            objmap.obj.position.x + objmap.inc * 0.001 * objmap.speed < xmax) {
+            objmap.obj.position.x += objmap.inc * 0.001 * objmap.speed;
         } else {
             console.log("switch");
             objmap.inc *= -1;
