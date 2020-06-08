@@ -1,0 +1,81 @@
+<html> 
+<head> 
+<title>Three.js - Exemplo da Spline</title> 
+<style>
+	canvas { width: 100%; height: 100% }
+</style>
+</head> 
+<body> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js">
+</script>
+    
+<script>
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+var renderer = new THREE.WebGLRenderer({ antialias: true});
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x000000);
+document.body.appendChild(renderer.domElement);
+camera.position.z = 25;
+
+
+// Inicializacao 
+//curva
+var curve = new THREE.SplineCurve3([
+    new THREE.Vector3(-10, 0, 1e-99),
+    new THREE.Vector3(0, 10, 1e-99),
+    new THREE.Vector3(10, 0, 1e-99),
+    new THREE.Vector3(0, -10, 1e-99),
+    new THREE.Vector3(-10, 0, 1e-99)
+]);
+//end curva
+
+//start sphere
+let spgeometry = new THREE.SphereGeometry(5 / 4, 32, 32);
+let spmaterial = new THREE.MeshBasicMaterial({color: 0xffff00});
+let sphere = new THREE.Mesh(spgeometry, spmaterial);
+let listOfSpheres = [sphere, sphere.clone(), sphere.clone(), sphere.clone()]
+listOfSpheres.forEach((sphere => scene.add(sphere)))
+//end spheres
+
+//draw curve
+let SUBDIVISIONS = 20;
+let curvegeo = new THREE.Geometry();
+for (var i = 0; i < curve.getPoints(SUBDIVISIONS).length; i++) {
+    curvegeo.vertices.push(curve.getPoints(SUBDIVISIONS)[i]);
+}
+let curvemat = new THREE.LineBasicMaterial({color: 0xff00f0});
+let line = new THREE.Line(curvegeo, curvemat);
+scene.add(line);
+//end draw curve
+
+let t = 0;
+// end initialização
+
+
+function moveOnSpline(t) {
+    let time = t;
+    listOfSpheres.forEach((sphere) => {
+        time += 1 / 4;
+        time = (time >= 1) ? time - 1 : time;
+        pt = curve.getPoint(time);
+        sphere.position.set(pt.x, pt.y, pt.z); // se for colocado a terceria coordenada a 0 dos pontos da curva então pt.z retorna NaN, logo coloquei o minimo ou possivelemente deixo a 0 e coloco 0 em vez de pt.z
+    })
+}
+
+function animate() {
+    t = (t >= 1) ? 0 : t += 0.002;
+    moveOnSpline(t);
+}
+
+function render() {
+    renderer.render(scene, camera);
+    animate();
+    requestAnimationFrame(render);
+}
+
+render();
+</script>
+</body> 
+</html>
