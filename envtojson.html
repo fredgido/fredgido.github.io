@@ -6,9 +6,8 @@
 
 <textarea id="w3review" name="w3review" rows="40" cols="100"></textarea>
 
-
-
-<button onclick="myFunction()">Click me</button>
+<button onclick="myFunction()">To json</button>
+<button onclick="myFunction2()">To env</button>
 
 <script>
 function myFunction() {
@@ -17,6 +16,15 @@ b = document.getElementById("w3review").value.split(/\r?\n/).map(x => x.split("=
 b.forEach(element => a[element[0]] = element[1])
 
   document.getElementById("w3review").value = JSON.stringify(a,null,4);
+}
+</script>
+<script>
+function myFunction2() {
+b = ""
+c = JSON.parse(document.getElementById("w3review").value)
+Object.entries(c).forEach(element => b = b + element[0]+"="+element[1]+"\n")
+
+  document.getElementById("w3review").value = b;
 }
 </script>
 <p>Click the "Submit" button and the form-data will be sent to a page on the 
