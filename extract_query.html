@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<!-- saved from url=(0041)https://fredgido.github.io/envtojson.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>
-
+<html><head>
+  <meta charset="utf-8">
+</head>
+<body>
 <h1>Fetch to graphql query</h1>
 
-<textarea id="w3review" name="w3review" rows="26" cols="100">
+<textarea id="w3review" name="w3review" rows="36" cols="100">
 fetch("http://0.0.0.0:8004/graphql/", {
   "headers": {
     "accept": "*/*",
@@ -18,10 +19,9 @@ fetch("http://0.0.0.0:8004/graphql/", {
   "method": "POST",
   "mode": "cors",
   "credentials": "include"
-});</textarea>
-<textarea id="endpointurl" name="endpointurl" rows="1" cols="100">endpoint url</textarea>
-<textarea id="variables" name="variables" rows="1" cols="100">variables</textarea>
-<br>
+});</textarea><br>
+<textarea id="endpointurl" name="endpointurl" rows="1" cols="100">endpoint url</textarea><br>
+<textarea id="variables" name="variables" rows="1" cols="100">variables</textarea><br>
 <button onclick="myFunction()">To query</button>
 
 <script>
@@ -33,6 +33,5 @@ function myFunction() {
 }
 </script>
 <p>Click</p>
-<img scr="demo.png">
-
+<div><img scr="demo.png"></div>
 </body></html>
