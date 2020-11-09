@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)https://fredgido.github.io/envtojson.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head><body>
+
+<h1>Fetch to graphql query</h1>
+
+<textarea id="w3review" name="w3review" rows="26" cols="100">
+fetch("http://0.0.0.0:8004/graphql/", {
+  "headers": {
+    "accept": "*/*",
+    "accept-language": "fr",
+    "authorization": "Bearer x",
+    "content-type": "application/json"
+  },
+  "referrer": "http://localhost:3000/",
+  "referrerPolicy": "no-referrer-when-downgrade",
+  "body": "{\"operationName\":\"listBulks\",\"variables\":{\"offset\":0,\"limit\":10},\"query\":\"query listBulks($offset: Int, $limit: Int) {\\n  listBulks(filter: {assignTo_Isnull: true, validateAssignTo_Isnull: true, validateStartedAt_Isnull: true, excludeBookType_In: [\\\"XY\\\", \\\"N\\\"]}) {\\n    totalCount\\n    results(limit: $limit, offset: $offset, orderBy: \\\"createdAt\\\") {\\n      id\\n      createdAt\\n      startedAt\\n      documentsTotal\\n      documentsTotalRegistered\\n      company {\\n        id\\n        name\\n        __typename\\n      }\\n      accountingFirm {\\n        id\\n        name\\n        __typename\\n      }\\n      documents {\\n        id\\n        registeredAt\\n        __typename\\n      }\\n      __typename\\n    }\\n    __typename\\n  }\\n}\\n\"}",
+  "method": "POST",
+  "mode": "cors",
+  "credentials": "include"
+});</textarea>
+<textarea id="endpointurl" name="endpointurl" rows="1" cols="100">endpoint url</textarea>
+<textarea id="variables" name="variables" rows="1" cols="100">variables</textarea>
+<br>
+<button onclick="myFunction()">To query</button>
+
+<script>
+function myFunction() {
+    a = JSON.parse(document.getElementById("w3review").value.match(", ({[^]*})")[1]);
+    document.getElementById("endpointurl").value = document.getElementById("w3review").value.match('"([^]*)", {')[1];
+    document.getElementById("w3review").value = JSON.parse(a.body).query;
+    document.getElementById("variables").value = JSON.stringify(JSON.parse(a.body).variables);
+}
+</script>
+<p>Click</p>
+<img scr="demo.png">
+
+</body></html>
