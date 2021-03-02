@@ -12,24 +12,53 @@ DATABASE_NAME=postgres</textarea>
 <br>
 <button onclick="myFunction()">To json</button>
 <button onclick="myFunction2()">To env</button>
-
+<button onclick="myFunction3()">Order</button>
 <script>
-function myFunction() {
-a = {}
-b = document.getElementById("w3review").value.split(/\r?\n/).map(x => x.split("="))
-b.forEach(element => a[element[0]] = element[1])
+    function myFunction() {
+        a = {}
+        b = document.getElementById("w3review").value.split(/\r?\n/).map(x => x.split("="))
+        b.forEach(element => a[element[0]] = element[1])
 
-  document.getElementById("w3review").value = JSON.stringify(a,null,4);
-}
-</script>
-<script>
-function myFunction2() {
-b = ""
-c = JSON.parse(document.getElementById("w3review").value)
-Object.entries(c).forEach(element => b = b + element[0]+"="+element[1]+"\n")
+        document.getElementById("w3review").value = JSON.stringify(a, null, 4);
+    }
 
-  document.getElementById("w3review").value = b;
-}
+    function myFunction2() {
+        b = ""
+        c = JSON.parse(document.getElementById("w3review").value)
+        Object.entries(c).forEach(element => b = b + element[0] + "=" + element[1] + "\n")
+
+        document.getElementById("w3review").value = b;
+    }
+
+    function myFunction3() {
+        try {
+            b = ""
+            c = JSON.parse(document.getElementById("w3review").value)
+            Object.entries(c).sort().forEach(element => b = b + element[0] + "=" + element[1] + "\n")
+
+            document.getElementById("w3review").value = b;
+        } catch (err) {
+            a = {}
+            b = document.getElementById("w3review").value.split(/\r?\n/).sort().map(x => x.split("="))
+            b.forEach(element => a[element[0]] = element[1])
+
+            document.getElementById("w3review").value = JSON.stringify(a, null, 4);
+
+        }
+    }
+
+    function jsonOrEnv() {
+        if (!document.getElementById("w3review").value.includes("{")) {
+            return "env"
+        } else {
+            try {
+                JSON.parse(document.getElementById("w3review").value);
+                return "json"
+            } catch (err) {
+                return none;
+            }
+        }
+    }
 </script>
 <p>Click</p>
 </body>
